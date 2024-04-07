@@ -14,15 +14,10 @@ interface MoviesProps {
 function Movies({ movies }: MoviesProps) {
     return (
         <div>
-            <ul className='Movies'>
+            <ul className="Movies">
                 {movies.map(movie => (
-                    <li key={movie.id}>
-                        <MovieCard
-                            id={movie.id}
-                            title={movie.title}
-                            overview={movie.overview}
-                            popularity={movie.popularity}
-                        />
+                    <li key={movie.results.id}>
+                        <MovieCard results={movie.results} />
                     </li>
                 ))}
             </ul>
