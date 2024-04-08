@@ -1,0 +1,14 @@
+@use '../../styles/shared';
+
+.link-to-back {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    font-style: italic;
+    color: shared.$link-color;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}

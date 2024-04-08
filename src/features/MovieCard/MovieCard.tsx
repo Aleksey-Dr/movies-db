@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import './MovieCard.css';
+import css from './MovieCard.module.scss';
 
 interface IResults {
     adult?: boolean;
@@ -19,25 +19,27 @@ interface IResults {
     vote_count?: number;
 };
 
-// hw_1
 interface MovieCardProps {
     page?: number;
     results: IResults;
     total_pages?: number;
     total_results?: number;
 };
-// hw_1
 
 function MovieCard({ results }: MovieCardProps) {
     const { id, title, overview, popularity, release_date } = results;
+
     return (
-        <div className='Movies-card'>
-            <Link to={`/movies/${id}`}>{title}</Link>
-            <p className='Movies-card-release'>Year: {release_date}</p>
-            <p className='Movies-card-overview'>{overview}</p>
-            <p className='Movies-card-popularity'>{popularity}</p>
+        <div className={css.card}>
+            <img src="/movie-thumb.png" alt="Movie thumbnail" className={css.thumbnail} />
+            <div className={css.content}>
+                <Link to={`/movies/${id}`}>{title}</Link>
+                <p className={css['release-date']}>Year: {release_date}</p>
+                <p className={css.overview}>{overview}</p>
+                <p className={css.popularity}>{popularity}</p>
+            </div>
         </div>
     );
-};
+}
 
 export default MovieCard;

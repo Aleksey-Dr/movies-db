@@ -1,0 +1,85 @@
+@use '../src/styles/shared.scss';
+
+.root {
+    display: flex;
+    flex-direction: column;
+
+    background-color: shared.$background-color;
+}
+
+.container {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.section {
+    padding-bottom: 2rem;
+}
+
+.header {
+    background-color: shared.$background-color;
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(8px + 2vmin);
+    color: shared.$primary-color;
+
+    ul {
+        li {
+            display: inline-block;
+            margin: 12px;
+        }
+    }
+}
+
+.logo {
+    height: 24vh;
+    padding: 2rem;
+    filter: invert(0.7);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}
+
+.nav-list {
+    margin-top: 0;
+
+    @media screen and (min-width: shared.$min-desktop-width) {
+        margin-top: 0.5rem;
+        margin-bottom: 3rem;
+    }
+}
+
+.link {
+    display: inline-block;
+    height: 40px;
+    padding: 4px 8px;
+    color: shared.$link-color;
+
+    &:hover {
+        text-decoration-line: underline;
+    }
+
+    .active {
+        color: shared.$active-color;
+    }
+}
+
+.main {
+    min-height: 98vh;
+    color: shared.$primary-color;
+}
+
+@keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}

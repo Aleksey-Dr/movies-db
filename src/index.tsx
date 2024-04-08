@@ -7,12 +7,13 @@ import { Provider } from 'react-redux';
 import App from './App';
 import About from './features/About';
 import Movies from './features/Movies';
+import MoviePage from './features/MoviePage';
 
 import store from './store';
 
 import reportWebVitals from './reportWebVitals';
 
-import './index.css';
+import './index.scss';
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             {
                 path: '/movies',
                 element: <Movies />,
+            },
+            {
+                path: '/movies/:id',
+                element: <MoviePage />
             },
         ],
     },

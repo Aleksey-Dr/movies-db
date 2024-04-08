@@ -5,7 +5,7 @@ import MovieCard from '../MovieCard';
 import { Movie } from '../../reducers/movies';
 import { RootState } from '../../store';
 
-import './Movies.css';
+import css from './Movies.module.scss';
 
 interface MoviesProps {
     movies: Movie[];
@@ -14,7 +14,7 @@ interface MoviesProps {
 function Movies({ movies }: MoviesProps) {
     return (
         <div>
-            <ul className="Movies">
+            <ul className={css['movies-list']}>
                 {movies.map(movie => (
                     <li key={movie.results.id}>
                         <MovieCard results={movie.results} />
@@ -23,7 +23,7 @@ function Movies({ movies }: MoviesProps) {
             </ul>
         </div>
     );
-}
+};
 
 const mapStateToProps = (state: RootState) => ({
     movies: state.movies.top,

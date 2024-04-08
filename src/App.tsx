@@ -1,30 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
+
+import css from './App.module.scss';
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <ul>
-                    <li>
-                        <Link className="App-link" to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link className="App-link" to="/movies">Movies</Link>
-                    </li>
-                    <li>
-                        <Link className="App-link" to="/about">About</Link>
-                    </li>
-                </ul>
+        <div className={css.root}>
+            <header className={css.header}>
+                <img src='/cinema-ico.png' className={css.logo} alt="logo" />
+                <nav>
+                    <ul className={css['nav-list']}>
+                        <li>
+                            <NavLink className={css.link} to="/">Home</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className={css.link} to="/movies">Movies</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className={css.link} to="/about">About</NavLink>
+                        </li>
+                    </ul>
+                </nav>
             </header>
-            <main className="App-main">
-                <Outlet />
+            <main className={css.main}>
+                <section className={css.section}>
+                    <div className={css.container}>
+                        <Outlet />
+                    </div>
+                </section>
             </main>
         </div>
     );
-}
+};
 
 export default App;
