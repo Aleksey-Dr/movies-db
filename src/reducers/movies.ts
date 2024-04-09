@@ -1,4 +1,6 @@
-import { Action, Reducer } from 'redux';
+import { AppThunk } from 'store';
+import { ActionWithPayload, createReducer } from '../redux/utils';
+import { client } from 'api/tmdb';
 
 export interface Movie {
     adult?: boolean;
@@ -15,47 +17,64 @@ export interface Movie {
     video?: boolean;
     vote_average?: number;
     vote_count?: number;
-};
+}
 
 interface MovieState {
     top: Movie[];
-};
+    loading: boolean;
+}
 
 const initialState: MovieState = {
-    top: [
-        {
-            id: 1,
-            title: 'Inception',
-            popularity: 98,
-            overview: 'Dreams...',
-            release_date: '2010',
-        },
-        {
-            id: 2,
-            title: 'The Godfather',
-            popularity: 97,
-            overview: 'Godfather...',
-            release_date: '1972',
-        },
-        {
-            id: 3,
-            title: 'The Dark Knight',
-            popularity: 96.5,
-            overview: 'Batman...',
-            release_date: '2008',
-        },
-        {
-            id: 4,
-            title: 'The Godfather Part II',
-            popularity: 96,
-            overview: 'Part II...',
-            release_date: '1974',
-        },
-    ],
+    top: [],
+    loading: false,
 };
 
-const moviesReducer: Reducer<MovieState, Action> = (state, action) => {
-    return initialState;
+const moviesLoaded = (movies: Movie[]) => ({
+    type: 'movies/loaded',
+    payload: movies,
+});
+
+const moviesLoading = () => ({
+    type: 'movies/loading',
+});
+
+export function fetchMovies(): AppThunk<Promise<void>> {
+    return async (dispatch, getState) => {
+        dispatch(moviesLoading());
+
+        const config = await client.getConfiguration();
+        const imageUrl = config.images.base_url;
+
+        const results = await client.getNowPlaying();
+
+        const mappedResults: Movie[] = results.map(movie => ({
+            id: movie.id,
+            overview: movie.overview,
+            title: movie.title,
+            popularity: movie.popularity,
+            backdrop_path: movie.backdrop_path
+                ? `${imageUrl}w780${movie.backdrop_path}`
+                : undefined,
+        }));
+
+        dispatch(moviesLoaded(mappedResults)); 
+    };
 };
+
+const moviesReducer = createReducer<MovieState>(initialState, {
+    'movies/loaded': (state, action: ActionWithPayload<Movie[]>) => {
+        return {
+            ...state,
+            top: action.payload,
+            loading: false,
+        };
+    },
+    'movies/loading': (state, action) => {
+        return {
+            ...state,
+            loading: true,
+        };
+    },
+});
 
 export default moviesReducer;

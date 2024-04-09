@@ -7,12 +7,17 @@ import { Provider } from 'react-redux';
 import App from './App';
 import About from './features/About';
 // import Movies from './features/Movies';
-import { MoviesFetch } from 'features/Movies/Movies';
+import Movies from 'features/Movies';
 import MoviePage from './features/MoviePage';
 
 import store from './store';
 
 import reportWebVitals from './reportWebVitals';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 import './index.scss';
 
@@ -31,7 +36,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/movies',
-                element: <MoviesFetch />,
+                element: <Movies />,
             },
             {
                 path: '/movies/:id',
