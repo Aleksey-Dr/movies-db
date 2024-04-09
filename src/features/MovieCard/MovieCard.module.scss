@@ -5,6 +5,9 @@
     flex-direction: column;
     flex: 0 1 0;
 
+    max-width: 400px;
+    height: 520px;
+
     border: 1px solid #cccccc;
     border-radius: 8px;
 
@@ -14,33 +17,26 @@
 }
 
 .thumbnail {
-    max-height: 200px;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-
-    @media screen and (min-width: shared.$min-desktop-width) {
-        max-height: 148px;
-    }
 }
 
 .content {
     padding: 1rem;
 
-    @media screen and (min-width: shared.$min-tablet-width) and (max-width: shared.$max-tablet-width) {
-        font-size: 18px;
+    &:last-child {
+        padding-top: 0;
     }
 
     .overview {
         font-size: small;
         color: shared.$dimmed-color;
-
-        @media screen and (min-width: shared.$min-tablet-width) and (max-width: shared.$max-tablet-width) {
-            font-size: 16px;
-        }
     }
 
     .popularity {
-        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
         font-weight: bold;
     }
 

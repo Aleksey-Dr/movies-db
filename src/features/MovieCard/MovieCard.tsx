@@ -1,8 +1,17 @@
 import { Link } from 'react-router-dom';
 
+import { PiThumbsUp } from 'react-icons/pi';
+import {
+    CardHeader,
+    CardDescription,
+    CardContent,
+    Card,
+    Image,
+} from 'semantic-ui-react';
+
 import css from './MovieCard.module.scss';
 
-interface IResults {
+interface MovieCardProps {
     adult?: boolean;
     backdrop_path?: string;
     genre_ids?: number[];
@@ -17,28 +26,37 @@ interface IResults {
     video?: boolean;
     vote_average?: number;
     vote_count?: number;
-};
+}
 
-interface MovieCardProps {
-    page?: number;
-    results: IResults;
-    total_pages?: number;
-    total_results?: number;
-};
-
-function MovieCard({ results }: MovieCardProps) {
-    const { id, title, overview, popularity, release_date } = results;
-
+function MovieCard({
+    id,
+    title,
+    overview,
+    popularity,
+    backdrop_path = '/movie-thumb.png',
+}: MovieCardProps) {
     return (
-        <div className={css.card}>
-            <img src="/movie-thumb.png" alt="Movie thumbnail" className={css.thumbnail} />
-            <div className={css.content}>
-                <Link to={`/movies/${id}`}>{title}</Link>
-                <p className={css['release-date']}>Year: {release_date}</p>
-                <p className={css.overview}>{overview}</p>
-                <p className={css.popularity}>{popularity}</p>
-            </div>
-        </div>
+        <Card className={css.card}>
+            <Image
+                src={backdrop_path}
+                ui={false}
+                className={css.thumbnail}
+            />
+            <CardContent className={css.content}>
+                <CardHeader>
+                    <Link to={`/movies/${id}`}>{title}</Link>
+                </CardHeader>
+                <CardDescription className={css.overview}>
+                    {overview}
+                </CardDescription>
+            </CardContent>
+            <CardContent extra className={css.content}>
+                <CardDescription className={css.popularity}>
+                    <PiThumbsUp className={css.icon} />
+                    <span>{popularity}</span>
+                </CardDescription>
+            </CardContent>
+        </Card>
     );
 }
 

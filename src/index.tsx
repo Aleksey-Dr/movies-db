@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 
 import App from './App';
 import About from './features/About';
-import Movies from './features/Movies';
+// import Movies from './features/Movies';
+import { MoviesFetch } from 'features/Movies/Movies';
 import MoviePage from './features/MoviePage';
 
 import store from './store';
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/movies',
-                element: <Movies />,
+                element: <MoviesFetch />,
             },
             {
                 path: '/movies/:id',

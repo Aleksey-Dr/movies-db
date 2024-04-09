@@ -3,8 +3,12 @@ import { MdArrowBackIos } from "react-icons/md";
 
 import css from './MoviePage.module.scss';
 
+type MovieParams = {
+    id: string;
+};
+
 function MoviePage() {
-    const {id} = useParams();
+    const { id } = useParams<MovieParams>();
 
     return (
         <>
