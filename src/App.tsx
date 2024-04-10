@@ -1,15 +1,10 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import HeaderLink from 'features/HeaderLink';
 
-import {
-    AppBar,
-    CssBaseline,
-    ThemeProvider,
-    Toolbar,
-    Typography,
-    createTheme,
-} from '@mui/material';
-import LiveTvOutlinedIcon from '@mui/icons-material/LiveTvOutlined';
+import AppHeader from 'features/AppHeader';
+import { AuthContext, AuthInfo, anonymousUser } from 'AuthContext';
+
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { teal } from '@mui/material/colors';
 
 const defaultTheme = createTheme({
@@ -21,26 +16,27 @@ const defaultTheme = createTheme({
     },
 });
 
+const fakeAuth: AuthInfo = {
+    user: {
+        name: 'Diana',
+    },
+};
+
 function App() {
+    const [auth, setAuth] = useState<AuthInfo>({ user: anonymousUser });
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <CssBaseline />
-            <AppBar>
-                <Toolbar>
-                    <LiveTvOutlinedIcon sx={{ mr: 2 }} />
-                    <Typography variant="h6" color="inherit" sx={{ mr: 4}} noWrap>
-                        The Movies DB
-                    </Typography>
-                    <nav>
-                        <HeaderLink to="/">Home</HeaderLink>
-                        <HeaderLink to="/movies">Movies</HeaderLink>
-                        <HeaderLink to="/about">About</HeaderLink>
-                    </nav>
-                </Toolbar>
-            </AppBar>
-            <main>
-                <Outlet />
-            </main>
+            <AuthContext.Provider value={auth}>
+                <AppHeader
+                    onLogin={() => setAuth(fakeAuth)}
+                    onLogout={() => setAuth({ user: anonymousUser })}
+                />
+                <main>
+                    <Outlet />
+                </main>
+            </AuthContext.Provider>
         </ThemeProvider>
     );
 }

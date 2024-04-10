@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import MovieCard from '../MovieCard';
@@ -6,6 +6,7 @@ import MovieCard from '../MovieCard';
 import { Movie, fetchMovies } from '../../reducers/movies';
 import { RootState } from '../../store';
 import { useAppDispatch } from '../../hooks';
+import { AuthContext, anonymousUser } from '../../AuthContext';
 
 import { Container, Grid, LinearProgress, Typography } from '@mui/material';
 
@@ -17,12 +18,15 @@ interface MoviesProps {
 function Movies({ movies, loading }: MoviesProps) {
     const dispatch = useAppDispatch();
 
+    const { user } = useContext(AuthContext);
+    const loggedIn = user !== anonymousUser;
+
     useEffect(() => {
         dispatch(fetchMovies());
     }, [dispatch]);
 
     return (
-        <Container sx={{ py: 12 }} maxWidth="lg">
+        <Container sx={{ py: 4 }} maxWidth="lg">
             <Typography variant="h4" align="center" gutterBottom>
                 Now playing
             </Typography>
@@ -38,6 +42,7 @@ function Movies({ movies, loading }: MoviesProps) {
                                 overview={movie.overview}
                                 popularity={movie.popularity}
                                 backdrop_path={movie.backdrop_path}
+                                enableUserActions={loggedIn}
                             />
                         </Grid>
                     ))}
@@ -45,7 +50,7 @@ function Movies({ movies, loading }: MoviesProps) {
             )}
         </Container>
     );
-}
+};
 
 const mapStateToProps = (state: RootState) => ({
     movies: state.movies.top,

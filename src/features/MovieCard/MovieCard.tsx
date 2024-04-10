@@ -6,8 +6,12 @@ import {
     CardActions,
     CardContent,
     CardMedia,
+    IconButton,
+    Tooltip,
     Typography,
 } from '@mui/material';
+
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface MovieCardProps {
     adult?: boolean;
@@ -24,17 +28,20 @@ interface MovieCardProps {
     video?: boolean;
     vote_average?: number;
     vote_count?: number;
-}
+
+    enableUserActions?: boolean;
+};
 
 function MovieCard({
     id,
     title,
     overview,
     popularity,
+    enableUserActions,
     backdrop_path = '/movie-thumb.png',
 }: MovieCardProps) {
     return (
-        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column'}}>
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <CardMedia component={'img'} image={backdrop_path} />
             <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="h5" gutterBottom>
@@ -55,6 +62,13 @@ function MovieCard({
                 >
                     Details
                 </Button>
+                {enableUserActions &&
+                    <Tooltip title="Add to favorites">
+                        <IconButton>
+                            <FavoriteIcon />
+                        </IconButton>
+                    </Tooltip>
+                }
             </CardActions>
         </Card>
     );

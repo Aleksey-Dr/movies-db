@@ -1,4 +1,8 @@
+import { useContext } from 'react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
+
+import { AuthContext, anonymousUser } from '../../AuthContext';
+
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 
 function Copyright() {
@@ -10,8 +14,14 @@ function Copyright() {
 };
 
 function Home() {
+    const { user } = useContext(AuthContext);
+    const loggedIn = user !== anonymousUser;
+    const greeting = loggedIn
+        ? `${user.name}, explore movies today with us!`
+        : 'Explore movies today with us!';
+
     return (
-        <Box sx={{ bgcolor: 'background.paper', pt: 12, pb: 8 }}>
+        <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 8 }}>
             <Container maxWidth="sm">
                 <Typography
                     component="h1"
@@ -28,7 +38,7 @@ function Home() {
                     color="text.secondary"
                     paragraph
                 >
-                    Explore movies today with us!
+                    {greeting}
                 </Typography>
                 <Stack
                     sx={{ pt: 4 }}
