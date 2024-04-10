@@ -20,11 +20,14 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import './index.scss';
+import { ErrorBoundary } from 'ErrorBoundary';
 
 function AppEntrypoint() {
     return (
         <Provider store={store}>
-            <App />
+            <ErrorBoundary>
+                <App />
+            </ErrorBoundary>
         </Provider>
     );
 };
