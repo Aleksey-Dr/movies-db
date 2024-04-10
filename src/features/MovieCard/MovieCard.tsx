@@ -1,15 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
-import { PiThumbsUp } from 'react-icons/pi';
 import {
-    CardHeader,
-    CardDescription,
-    CardContent,
+    Button,
     Card,
-    Image,
-} from 'semantic-ui-react';
-
-import css from './MovieCard.module.scss';
+    CardActions,
+    CardContent,
+    CardMedia,
+    Typography,
+} from '@mui/material';
 
 interface MovieCardProps {
     adult?: boolean;
@@ -36,26 +34,28 @@ function MovieCard({
     backdrop_path = '/movie-thumb.png',
 }: MovieCardProps) {
     return (
-        <Card className={css.card}>
-            <Image
-                src={backdrop_path}
-                ui={false}
-                className={css.thumbnail}
-            />
-            <CardContent className={css.content}>
-                <CardHeader>
-                    <Link to={`/movies/${id}`}>{title}</Link>
-                </CardHeader>
-                <CardDescription className={css.overview}>
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column'}}>
+            <CardMedia component={'img'} image={backdrop_path} />
+            <CardContent sx={{ flexGrow: 1 }}>
+                <Typography variant="h5" gutterBottom>
+                    {title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
                     {overview}
-                </CardDescription>
+                </Typography>
+                <Typography variant="button" gutterBottom>
+                    {popularity}
+                </Typography>
             </CardContent>
-            <CardContent extra className={css.content}>
-                <CardDescription className={css.popularity}>
-                    <PiThumbsUp className={css.icon} />
-                    <span>{popularity}</span>
-                </CardDescription>
-            </CardContent>
+            <CardActions>
+                <Button
+                    component={RouterLink}
+                    to={`/movies/${id}`}
+                    color="secondary"
+                >
+                    Details
+                </Button>
+            </CardActions>
         </Card>
     );
 }

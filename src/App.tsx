@@ -1,36 +1,48 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import HeaderLink from 'features/HeaderLink';
 
-import css from './App.module.scss';
+import {
+    AppBar,
+    CssBaseline,
+    ThemeProvider,
+    Toolbar,
+    Typography,
+    createTheme,
+} from '@mui/material';
+import LiveTvOutlinedIcon from '@mui/icons-material/LiveTvOutlined';
+import { teal } from '@mui/material/colors';
+
+const defaultTheme = createTheme({
+    palette: {
+        primary: teal,
+        secondary: {
+            main: '#96000f',
+        },
+    },
+});
 
 function App() {
     return (
-        <div className={css.root}>
-            <header className={css.header}>
-                <img src='/cinema-ico.png' className={css.logo} alt="logo" />
-                <nav>
-                    <ul className={css['nav-list']}>
-                        <li>
-                            <NavLink className={css.link} to="/">Home</NavLink>
-                        </li>
-                        <li>
-                            <NavLink className={css.link} to="/movies">Movies</NavLink>
-                        </li>
-                        <li>
-                            <NavLink className={css.link} to="/about">About</NavLink>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
-            <main className={css.main}>
-                <section className={css.section}>
-                    <div className={css.container}>
-                        <Outlet />
-                    </div>
-                </section>
+        <ThemeProvider theme={defaultTheme}>
+            <CssBaseline />
+            <AppBar>
+                <Toolbar>
+                    <LiveTvOutlinedIcon sx={{ mr: 2 }} />
+                    <Typography variant="h6" color="inherit" sx={{ mr: 4}} noWrap>
+                        The Movies DB
+                    </Typography>
+                    <nav>
+                        <HeaderLink to="/">Home</HeaderLink>
+                        <HeaderLink to="/movies">Movies</HeaderLink>
+                        <HeaderLink to="/about">About</HeaderLink>
+                    </nav>
+                </Toolbar>
+            </AppBar>
+            <main>
+                <Outlet />
             </main>
-        </div>
+        </ThemeProvider>
     );
-};
+}
 
 export default App;

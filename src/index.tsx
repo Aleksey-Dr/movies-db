@@ -5,8 +5,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import App from './App';
+import Home from 'features/Home';
 import About from './features/About';
-// import Movies from './features/Movies';
 import Movies from 'features/Movies';
 import MoviePage from './features/MoviePage';
 
@@ -21,15 +21,23 @@ import '@fontsource/roboto/700.css';
 
 import './index.scss';
 
+function AppEntrypoint() {
+    return (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
+};
+
 const router = createBrowserRouter([
     {
         path: '/',
-        element: (
-            <Provider store={store}>
-                <App />
-            </Provider>
-        ),
+        element: <AppEntrypoint />,
         children: [
+            {
+                path: '/',
+                element: <Home />
+            },
             {
                 path: '/about',
                 element: <About />,
