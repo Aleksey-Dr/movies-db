@@ -36,6 +36,13 @@ export interface MovieDetails {
 interface PageResponse<TResults> {
     page: number;
     results: TResults[];
+    total_pages: number;
+};
+
+interface PageDetails<TResults> {
+    page: number;
+    results: TResults[];
+    totalPages: number;
 };
 
 interface Configuration {
@@ -49,9 +56,13 @@ export const client = {
         return get<Configuration>('/configuration');
     },
 
-    async getNowPlaying(): Promise<MovieDetails[]> {
-        const response = await get<PageResponse<MovieDetails>>('/movie/now_playing?page=1');
+    async getNowPlaying(page: number = 1): Promise<PageDetails<MovieDetails>> {
+        const response = await get<PageResponse<MovieDetails>>(`/movie/now_playing?page=${page}`);
         
-        return response.results;
+        return {
+            results: response.results,
+            page: response.page,
+            totalPages: response.total_pages,
+        };
     },
 };

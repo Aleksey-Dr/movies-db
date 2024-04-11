@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 
 import MovieCard from '../MovieCard';
 
-import { Movie, fetchMovies } from '../../reducers/movies';
+import { Movie, fetchNextPage } from '../../reducers/movies';
 import { RootState } from '../../store';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useIntersectionObserver } from 'hooks/useIntersectionObserver';
 import { AuthContext, anonymousUser } from '../../AuthContext';
 
 import { Container, Grid, LinearProgress, Typography } from '@mui/material';
@@ -13,26 +14,30 @@ import { Container, Grid, LinearProgress, Typography } from '@mui/material';
 interface MoviesProps {
     movies: Movie[];
     loading: boolean;
-}
+};
 
 function Movies({ movies, loading }: MoviesProps) {
     const dispatch = useAppDispatch();
 
     const { user } = useContext(AuthContext);
     const loggedIn = user !== anonymousUser;
+    const hasMorePages = useAppSelector((state) => state.movies.hasMorePages);
+
+    const [targetRef, entry] = useIntersectionObserver()
 
     useEffect(() => {
-        dispatch(fetchMovies());
-    }, [dispatch]);
+
+        if (entry?.isIntersecting && hasMorePages) {
+            dispatch(fetchNextPage());
+        };
+
+    }, [dispatch, entry?.isIntersecting, hasMorePages]);
 
     return (
         <Container sx={{ py: 4 }} maxWidth="lg">
             <Typography variant="h4" align="center" gutterBottom>
                 Now playing
             </Typography>
-            {loading ? (
-                <LinearProgress color="secondary" />
-            ) : (
                 <Grid container spacing={4}>
                     {movies.map(movie => (
                         <Grid item key={movie.id} xs={12} sm={6} md={4}>
@@ -47,7 +52,9 @@ function Movies({ movies, loading }: MoviesProps) {
                         </Grid>
                     ))}
                 </Grid>
-            )}
+                <div ref={targetRef}>
+                    {loading && <LinearProgress color="secondary" sx={{ mt: 3 }} />}
+                </div>
         </Container>
     );
 };
